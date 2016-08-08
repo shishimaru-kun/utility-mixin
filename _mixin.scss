@@ -1,0 +1,116 @@
+@charset "utf-8";
+
+// フォントサイズ-相対単位rem
+
+@mixin fontsize($size: 13, $base: $f_size_base, $imp : 0) {
+	@if $imp == 0 {
+		font-size: $size + px; // IE8用
+ 		font-size: ($size / $base) * 1rem;
+	} @else {
+		font-size: $size + px !important; // IE8用
+ 		font-size: ($size / $base) * 1rem !important;
+	}
+
+}
+
+// テキストはみ出しを省略
+
+@mixin text-ellipsis() {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+
+// 天地中央揃え
+@mixin vertical-center($flg : 0){
+	@if $flg == 0 {
+		position: relative;
+	} @else {
+		position: absolute;
+	}
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	   -moz-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	     -o-transform: translateY(-50%);
+	        transform: translateY(-50%);
+}
+
+// 要素の傾き
+@mixin transform-rotate($direct: 2) {
+	//1:上
+	@if $direct == 1 {
+		-webkit-transform: rotate(-135deg);
+		transform: rotate(-135deg);
+	}
+	//2:右
+	@else if $direct == 2 {
+		-webkit-transform: rotate(-45deg);
+		transform: rotate(-45deg);
+	}
+	//3:下
+	@else if $direct == 3 {
+		-webkit-transform: rotate(45deg);
+		transform: rotate(45deg);
+	}
+	//4:左
+	@else if $direct == 4 {
+		-webkit-transform: rotate(135deg);
+		transform: rotate(135deg);
+	}
+}
+
+
+// 矢印 > ←こういうやつ
+@mixin arrow($color: $t_thin2, $width: 8px, $height: 8px, $borderWidth: 3px, $arrow-direction: 2, $arrow-position: 1 , $position-x: 20px, $position-y: 40%) {
+	position: relative;
+	&:after {
+		content: "";
+		display: block;
+		width: $width;
+		height: $height;
+		position: absolute;
+	@if $arrow-position == 1 { //right
+		right: $position-x;
+	}
+	@else if $arrow-position == 2 { //left
+		left: $position-x;
+	}
+		top: $position-y;
+		border-style: solid;
+		border-width: $borderWidth;
+		border-color: $color;
+		border-left: none !important;
+		border-top: none !important;
+		@include transform-rotate($arrow-direction);
+	}
+}
+
+
+// カウンターインクリメント
+@mixin testCnt(){
+	counter-increment: testCnt;
+	&:before {
+		content: counter(testCnt);
+	}
+}
+
+// placeholder文字色
+@mixin placeholderColor($color) {
+    &::-webkit-input-placeholder {
+        color:$color;
+    }
+    &:-moz-placeholder {
+        color:$color;
+        opacity: 1;
+    }
+    &::-moz-placeholder {
+        color:$color;
+        opacity: 1;
+    }
+    &:-ms-input-placeholder {
+        color:$color;
+    }
+}
+
